@@ -2,6 +2,7 @@ import * as multer from 'multer'
 import * as fs from 'fs'
 import { Injectable } from '@nestjs/common'
 import { MulterRequest } from 'src/types/multer.type';
+import slugify from 'slugify';
 
 
 @Injectable()
@@ -14,7 +15,10 @@ export class FileService {
                 cb(null, path)
             },
             filename: (req, file, cb) => {
-                cb(null, `${Date.now()}-${file.originalname.replace(/\s/g, '')}`);
+                const ext = file.originalname.split('.').pop(); // safer extension grab
+                const name = file.originalname.replace(/\.[^/.]+$/, ''); // remove extension
+                const safeName = slugify(name, { lower: true, strict: true });
+                cb(null, `${Date.now()}-${safeName}.${ext}`);
             },
         });
         const upload = multer({ storage }).any()

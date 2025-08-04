@@ -1,8 +1,9 @@
-import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
 import ModelName from "src/utils/common/modelName";
 import { Tag } from "./tags.model";
 import { VideoTag } from "./videoTags.model";
 import { Channel } from "./channel.model";
+import { VideoFormates } from "./videoFormates.model";
 
 @Table({ tableName: ModelName.videos, paranoid: true })
 export class Videos extends Model<Videos, Partial<Videos>> {
@@ -28,7 +29,7 @@ export class Videos extends Model<Videos, Partial<Videos>> {
     declare uploadedById: string
     @Column({
         type: DataType.STRING,
-        allowNull: false
+        allowNull: true
     })
     declare videoUrl: string
     @Column({
@@ -61,5 +62,8 @@ export class Videos extends Model<Videos, Partial<Videos>> {
     declare channelId: string
     @BelongsTo(() => Channel)
     declare channel: Channel
+
+    @HasMany(() => VideoFormates)
+    declare videoFromates: VideoFormates[]
 
 }

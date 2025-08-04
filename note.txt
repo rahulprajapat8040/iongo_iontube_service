@@ -1,0 +1,5 @@
+module: AWS s3, redis, bullMQ, transcoding
+feature: file uploading, video transcoding,
+description: uploading videos to s3, transcoding using redis and bullMQ jobs
+             added docker file
+author: Rahul prajapat, Aug 4 , 15:37

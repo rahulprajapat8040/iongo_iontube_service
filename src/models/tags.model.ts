@@ -20,7 +20,6 @@ export class Tag extends Model<Tag, Partial<Tag>> {
     @Column({
         type: DataType.STRING,
         allowNull: false,
-        unique: true,
     })
     declare name: string;
 

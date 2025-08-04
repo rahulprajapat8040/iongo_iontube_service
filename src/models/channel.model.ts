@@ -10,7 +10,6 @@ export class Channel extends Model<Channel, Partial<Channel>> {
         defaultValue: DataType.UUIDV4
     })
     declare id: string
-    @Unique
     @Column({
         type: DataType.STRING,
         allowNull: false

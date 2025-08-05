@@ -10,7 +10,7 @@ COPY . .
 RUN npm run build
 
 # ******** PRODUCATION STAGE *********
-FROM node:20-alphine AS producation 
+FROM node:20-alpine AS producation 
 WORKDIR /app
 
 # COPY node_modules and dist

@@ -22,4 +22,4 @@ COPY .env .env
 EXPOSE 4000
 
 # RUN APP
-CMD [ "node" "dist/main" ]
+CMD [ "node", "dist/main" ]

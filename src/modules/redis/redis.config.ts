@@ -1,6 +1,6 @@
 import { RedisOptions } from "bullmq";
 
 export const RedisConfig: RedisOptions = {
-    host: 'localhost',
-    port: 6380
+    host: `${process.env.REDIS_HOST}`,
+    port: Number(process.env.REDIS_PORT)
 }

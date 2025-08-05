@@ -17,20 +17,27 @@ services:
     networks:
       - iongo-iontube-net
 
+  iongo-iontube-redis:
+    image: redis:7
+    container_name: iongo-iontube-redis
+    restart: unless-stopped
+    ports:
+      - '6381:6379'
+    networks:
+      - iongo-iontube-net
+
   iongo-iontube-service:
     container_name: iongo-iontube
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      REDIS_HOST: iongo-redis
-      REDIS_PORT: 6379
     ports:
       - '4000:4000'
     env_file:
       - .env
     depends_on:
       - iontube-mysql
+      - iongo-iontube-redis
     networks:
       - iongo-iontube-net
       - iongo-net

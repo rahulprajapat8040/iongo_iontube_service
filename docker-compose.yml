@@ -22,7 +22,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-        - iongo-redis
     environment:
       REDIS_HOST: iongo-redis
       REDIS_PORT: 6379

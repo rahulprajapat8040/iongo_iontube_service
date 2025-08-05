@@ -30,12 +30,12 @@ services:
       - iontube-mysql
     networks:
       - iongo-iontube-net
-      - iongo-auth-net
+      - iongo-net
 
 volumes:
   iongo-mysql-iontube-data:
 
 networks:
   iongo-iontube-net:
-  iongo-auth-net:
+  iongo-net:
     external: true

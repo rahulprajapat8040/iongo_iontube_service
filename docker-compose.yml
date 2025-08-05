@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  iontube-mysql:
+    image: mysql:8
+    container_name: iongo_iontube_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: iongo_vid_db
+      MYSQL_USER: iongo_vid_user
+      MYSQL_PASSWORD: iongo_vid_pass
+    ports:
+      - '3008:3306'
+    volumes:
+      - iongo-mysql-iontube-data:/var/lib/mysql
+    networks:
+      - iongo-iontube-net
+
+  iongo-iontube-service:
+    container_name: iongo-iontube
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '4000:4000'
+    env_file:
+      - .env
+    depends_on:
+      - iontube-mysql
+    networks:
+      - iongo-iontube-net
+      - iongo-auth-net
+
+volumes:
+  iongo-mysql-iontube-data:
+
+networks:
+  iongo-iontube-net:
+  iongo-auth-net:
+    external: true

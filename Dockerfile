@@ -1,20 +1,25 @@
-# --------- BASE STAGE -----------
-FROM node:20-alphine AS base
+# ********* BASE STAGE *********
+FROM node:20-alpine AS base
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --frozen-lockfile
 
-# --------- BUILD STAGE --------
-FROM base as builder
+# ********* BUILD STAGE ********
+FROM base AS builder
 COPY . .
 RUN npm run build
 
-# COPY THAT NEED
+# ******** PRODUCATION STAGE *********
+FROM node:20-alphine AS producation 
+WORKDIR /app
+
+# COPY node_modules and dist
 COPY --from=base /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY .env .env
 
 # EXPOSE PORT
-EXPOSE 3000
-EXPOSE 3001
-CMD [ "node", "dist/main" ]
+EXPOSE 4000
+
+# RUN APP
+CMD [ "node" "dist/main" ]

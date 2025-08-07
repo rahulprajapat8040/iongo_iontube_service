@@ -40,9 +40,7 @@ pipeline {
 
         stage('Prepare .env') {
             steps {
-                script {
-                    prepareEnv('/etc/jenkins-secrets/envs/iongo-iontube.env')
-                }
+                sh 'cp /etc/jenkins-secrets/envs/iongo-iontube.env .env'
             }
         }
 

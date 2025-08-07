@@ -41,7 +41,7 @@ pipeline {
         stage('Prepare .env') {
             steps {
                 script {
-                    prepareEnv('sudo nano /etc/jenkins-secrets/envs/iongo-iontube.env')
+                    prepareEnv('/etc/jenkins-secrets/envs/iongo-iontube.env')
                 }
             }
         }

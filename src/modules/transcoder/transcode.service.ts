@@ -8,6 +8,7 @@ import axios from 'axios';
 import { InjectModel } from '@nestjs/sequelize';
 import { VideoFormates } from 'src/models';
 
+ffmpeg.setFfprobePath('/usr/bin/ffprobe');
 @Injectable()
 export class TranscodeService {
     constructor(

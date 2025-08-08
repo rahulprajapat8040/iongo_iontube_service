@@ -56,8 +56,15 @@ export class IonTubeController {
     @Get("get-video-by-id")
     async getVideoById(
         @Query('videoId') videoId: string,
+    ) {
+        return this.iontubeService.getVideoById(videoId)
+    }
+
+    @Get('get-video-url')
+    async getVideoUrl(
+        @Query('videoId') videoId: string,
         @Query('quality') quality: string
     ) {
-        return this.iontubeService.getVideoById(videoId, quality)
+        return this.iontubeService.getVideoUrl(videoId, quality)
     }
 }

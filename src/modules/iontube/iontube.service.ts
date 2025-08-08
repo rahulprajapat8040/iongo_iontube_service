@@ -129,9 +129,8 @@ export class IonTubeService {
         }
     }
 
-    async getVideoById(videoId: string, quality?: string) {
+    async getVideoById(videoId: string) {
         try {
-            const filename = quality ? generateFileName(videoId, quality) : 'video.mp4'
             const video = await this.videoModel.findByPk(videoId, {
                 include: [
                     { model: this.tagModel },
@@ -141,11 +140,19 @@ export class IonTubeService {
             if (!video) {
                 throw new NotFoundException(STRINGCONST.DATA_NOT_FOUND)
             };
-            const videoUrl = await this.s3Service.generateVideoUrl(`uploads/raw`, videoId, filename);
-            (video as any).dataValues.videoOriginal = videoUrl
             return responseSender(STRINGCONST.DATA_FETCHED, HttpStatus.OK, true, video)
         } catch (error) {
             console.log('e', error)
+            SendError(error.message)
+        }
+    }
+
+    async getVideoUrl(videoId: string, quality?: string) {
+        try {
+            const filename = quality ? generateFileName(videoId, quality) : 'video.mp4'
+            const videoUrl = await this.s3Service.generateVideoUrl(`uploads/raw`, videoId, filename);
+            return responseSender(STRINGCONST.DATA_FETCHED, HttpStatus.OK, true, videoUrl)
+        } catch (error) {
             SendError(error.message)
         }
     }

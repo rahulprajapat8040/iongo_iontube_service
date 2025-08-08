@@ -2,7 +2,7 @@ import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { Channel, Tag, VideoFormates, Videos, VideoTag } from "src/models";
 import { MulterRequest } from "src/types/multer.type";
-import { generatePagination, getPages, responseSender, SendError } from "src/utils/helper/funcation.helper";
+import { generateFileName, generatePagination, getPages, responseSender, SendError } from "src/utils/helper/funcation.helper";
 import { FileService } from "../file/file.service";
 import STRINGCONST from "src/utils/common/stringConst";
 import { S3Service } from "../aws/s3.service";
@@ -131,7 +131,7 @@ export class IonTubeService {
 
     async getVideoById(videoId: string, quality?: string) {
         try {
-            const key = quality ? '' : 'quality'
+            const filename = quality ? generateFileName(videoId, quality) : 'video.mp4'
             const video = await this.videoModel.findByPk(videoId, {
                 include: [
                     { model: this.tagModel },
@@ -141,7 +141,7 @@ export class IonTubeService {
             if (!video) {
                 throw new NotFoundException(STRINGCONST.DATA_NOT_FOUND)
             };
-            const videoUrl = await this.s3Service.generateVideoUrl(`uploads/raw`, videoId, 'video.mp4');
+            const videoUrl = await this.s3Service.generateVideoUrl(`uploads/raw`, videoId, filename);
             (video as any).dataValues.videoOriginal = videoUrl
             return responseSender(STRINGCONST.DATA_FETCHED, HttpStatus.OK, true, video)
         } catch (error) {

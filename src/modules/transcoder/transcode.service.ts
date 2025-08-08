@@ -55,7 +55,7 @@ export class TranscodeService {
 
                 const { url } = await this.s3Service.uploadFileBuffer(fileBuffer, s3Key, outputFilename);
                 await this.videoFormateModel.create({
-                    url: url, videoId
+                    url: url, videoId, quality: `${height}p`
                 })
                 fs.unlinkSync(outputPath);
                 console.log(`🧹 Deleted temp output file ${outputPath}`);

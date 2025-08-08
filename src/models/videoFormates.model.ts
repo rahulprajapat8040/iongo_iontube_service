@@ -15,7 +15,11 @@ export class VideoFormates extends Model<VideoFormates, Partial<VideoFormates>> 
         type: DataType.STRING,
         allowNull: false
     })
-    url: string
+    declare url: string
+    @Column({
+        type: DataType.STRING
+    })
+    declare quality: string
 
     @ForeignKey(() => Videos)
     @Column({

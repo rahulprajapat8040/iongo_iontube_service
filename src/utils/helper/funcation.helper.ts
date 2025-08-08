@@ -39,3 +39,8 @@ export const generatePagination = (data: { rows: any[], count: number }, page: n
         }
     }
 }
+
+export const generateFileName = (videoId: string, resolution: string) => {
+    const filename = `${videoId}_${resolution}.mp4`
+    return filename
+}

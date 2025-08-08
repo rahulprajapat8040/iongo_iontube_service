@@ -16,6 +16,12 @@ services:
       - iongo-mysql-iontube-data:/var/lib/mysql
     networks:
       - iongo-iontube-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
 
   iongo-iontube-redis:
     image: redis:7
@@ -36,8 +42,10 @@ services:
     env_file:
       - .env
     depends_on:
-      - iontube-mysql
-      - iongo-iontube-redis
+      iontube-mysql:
+        condition: service_healthy
+      iongo-iontube-redis:
+        condition: service_started
     networks:
       - iongo-iontube-net
       - iongo-net

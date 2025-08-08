@@ -134,7 +134,7 @@ export class IonTubeService {
             const video = await this.videoModel.findByPk(videoId, {
                 include: [
                     { model: this.tagModel },
-                    { model: this.videoFormateModel }
+                    { model: this.videoFormateModel, order: [["quality", "ASC"]] }
                 ]
             })
             if (!video) {

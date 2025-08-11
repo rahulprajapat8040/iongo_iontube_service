@@ -1,4 +1,4 @@
-module: apis, models
-feature: video reaction, channel subscribe models and apis 
-description: models for the reaction on video such as like dislike, subscribe channel, apis for reaction add remove get
-author: Rahul prajapat, AUG 11, 10:38
+module: update api logic
+feature: update api logic for getIsAlreadyReacted
+description: sending complete response for that is video already liked or not
+author: Rahul prajapat, AUG 11, 14:32

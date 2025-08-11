@@ -165,7 +165,7 @@ export class IonTubeService {
         try {
             parameterNotFound(channelId, 'channelId not found in query')
             const res = await this.videoReactionModel.findOne({ where: { channelId, videoId } });
-            return responseSender(STRINGCONST.DATA_FETCHED, HttpStatus.OK, true, !!res)
+            return responseSender(STRINGCONST.DATA_FETCHED, HttpStatus.OK, true, res)
         } catch (error) {
             SendError(error.message)
         }
@@ -188,6 +188,16 @@ export class IonTubeService {
             SendError(error.message)
         }
     }
+
+    async getAllReactions(videoId: string) {
+        try {
+            const res = await this.videoReactionModel.count({ where: { videoId } })
+            return responseSender(STRINGCONST.DATA_FETCHED, HttpStatus.OK, true, res)
+        } catch (error) {
+            SendError(error.message)
+        }
+    }
+
 
     async subscribeChannel(subscribedById: string, subscribedToId: string) {
         try {

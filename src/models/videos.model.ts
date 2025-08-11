@@ -4,6 +4,7 @@ import { Tag } from "./tags.model";
 import { VideoTag } from "./videoTags.model";
 import { Channel } from "./channel.model";
 import { VideoFormates } from "./videoFormates.model";
+import { VideoReaction } from "./videoReaction.model";
 
 @Table({ tableName: ModelName.videos, paranoid: true })
 export class Videos extends Model<Videos, Partial<Videos>> {
@@ -65,5 +66,7 @@ export class Videos extends Model<Videos, Partial<Videos>> {
 
     @HasMany(() => VideoFormates)
     declare videoFromates: VideoFormates[]
+    @HasMany(() => VideoReaction)
+    declare videoReactions: VideoReaction[]
 
 }

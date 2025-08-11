@@ -1,6 +1,8 @@
 import { Column, DataType, HasMany, Model, PrimaryKey, Table, Unique } from "sequelize-typescript";
 import ModelName from "src/utils/common/modelName";
 import { Videos } from "./videos.model";
+import { Subscriptions } from "./subscriptions.model";
+import { VideoReaction } from "./videoReaction.model";
 
 @Table({ tableName: ModelName.channel, paranoid: true })
 export class Channel extends Model<Channel, Partial<Channel>> {
@@ -39,4 +41,13 @@ export class Channel extends Model<Channel, Partial<Channel>> {
 
     @HasMany(() => Videos)
     declare videos: Videos[]
+
+    @HasMany(() => Subscriptions, 'subscribedById')
+    declare subscriptions: Subscriptions[];
+
+    @HasMany(() => Subscriptions, 'subscribedToId')
+    declare subscribers: Subscriptions[];
+
+    @HasMany(() => VideoReaction)
+    declare videoReactions: VideoReaction[]
 }

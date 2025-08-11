@@ -1,4 +1,4 @@
-module: jenkinsfile
-feature: added jenkins file
-description: added jenkins file for ci cd
-author: Rahul prajapat, AUG 7, 12:25
+module: apis, models
+feature: video reaction, channel subscribe models and apis 
+description: models for the reaction on video such as like dislike, subscribe channel, apis for reaction add remove get
+author: Rahul prajapat, AUG 11, 10:38

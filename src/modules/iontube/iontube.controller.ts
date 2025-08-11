@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Put, Query, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Post, Put, Query, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { IonTubeService } from "./iontube.service";
 import { MulterRequest } from "src/types/multer.type";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { VideoReactionDto } from "src/utils/dto/iontube.dto";
 
 @Controller("iontube")
 export class IonTubeController {
@@ -66,5 +67,29 @@ export class IonTubeController {
         @Query('quality') quality: string
     ) {
         return this.iontubeService.getVideoUrl(videoId, quality)
+    }
+
+    @Get('is-already-reacted')
+    async getIsAlreadyReacted(
+        @Query('channelId') channelId: string,
+        @Query('videoId') videoId: string
+
+    ) {
+        return this.iontubeService.getIsAlreadyReacted(channelId, videoId)
+    }
+
+    @Post('react-to-video')
+    async reactToVideo(
+        @Body() videoReactionDto: VideoReactionDto
+    ) {
+        return this.iontubeService.reactToVideo(videoReactionDto)
+    }
+
+    @Delete('remove-reaction')
+    async removeReaction(
+        @Query('channelId') channelId: string,
+        @Query('videoId') videoId: string
+    ) {
+        return this.iontubeService.removeReaction(channelId, videoId)
     }
 }

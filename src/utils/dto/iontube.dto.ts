@@ -10,3 +10,14 @@ export class VideoReactionDto {
     @IsUUID()
     videoId: string
 }
+
+export class SubscribeChannelDto {
+    @IsNotEmpty({ message: "isAlreadySubscribe is reuired" })
+    isAlreadySubscribe: boolean
+    @IsNotEmpty({ message: 'subscribed by channel id is required' })
+    @IsUUID()
+    subscribedToId: string
+    @IsNotEmpty({ message: "subscribed channel id is required" })
+    @IsUUID()
+    subscribedById: string
+}

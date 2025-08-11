@@ -7,7 +7,7 @@ import { FileService } from "../file/file.service";
 import STRINGCONST from "src/utils/common/stringConst";
 import { S3Service } from "../aws/s3.service";
 import { TranscodeQueue } from "src/queue/transcode.queue";
-import { VideoReactionDto } from "src/utils/dto/iontube.dto";
+import { SubscribeChannelDto, VideoReactionDto } from "src/utils/dto/iontube.dto";
 
 @Injectable()
 export class IonTubeService {
@@ -198,15 +198,27 @@ export class IonTubeService {
         }
     }
 
-
-    async subscribeChannel(subscribedById: string, subscribedToId: string) {
+    async getIsAlreadySubscribed(subscribedToId: string, subscribedById: string) {
         try {
-            const res = await this.subscriptionModel.create({ subscribedById, subscribedToId })
-            return responseSender(STRINGCONST.DATA_ADDED, HttpStatus.CREATED, true, res)
+            const res = await this.subscriptionModel.findOne({ where: { subscribedById, subscribedToId } })
+            return responseSender(STRINGCONST.DATA_FETCHED, HttpStatus.OK, true, !!res)
         } catch (error) {
             SendError(error.message)
         }
     }
 
+    async subscribeChannel(dto: SubscribeChannelDto) {
+        try {
+            if (!dto.isAlreadySubscribe) {
+                const res = await this.subscriptionModel.create({ ...dto })
+                return responseSender(STRINGCONST.DATA_ADDED, HttpStatus.CREATED, true, res)
+            } else {
+                await this.subscriptionModel.destroy({ where: { subscribedById: dto.subscribedById, subscribedToId: dto.subscribedToId } })
+                return responseSender(STRINGCONST.DATA_DELETED, HttpStatus.OK, true, null)
+            }
+        } catch (error) {
+            SendError(error.message)
+        }
+    }
 
 }

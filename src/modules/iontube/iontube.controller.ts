@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Post, Put, Query, Req, UploadedFile, Use
 import { IonTubeService } from "./iontube.service";
 import { MulterRequest } from "src/types/multer.type";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { VideoReactionDto } from "src/utils/dto/iontube.dto";
+import { SubscribeChannelDto, VideoReactionDto } from "src/utils/dto/iontube.dto";
 
 @Controller("iontube")
 export class IonTubeController {
@@ -91,5 +91,20 @@ export class IonTubeController {
         @Query('videoId') videoId: string
     ) {
         return this.iontubeService.removeReaction(channelId, videoId)
+    }
+
+    @Get('is-already-subscribed')
+    async getIsAlreadySubscribed(
+        @Query('subscribedToId') subscribedToId: string,
+        @Query('subscribedById') subscribedById: string
+    ) {
+        return this.iontubeService.getIsAlreadySubscribed(subscribedToId, subscribedById)
+    }
+
+    @Post('subscribe-channel')
+    async subscribeChannel(
+        @Body() dto: SubscribeChannelDto
+    ) {
+        return this.iontubeService.subscribeChannel(dto)
     }
 }
